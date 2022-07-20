@@ -19,7 +19,7 @@ jobs:
       - name: Display docker containers to build
         uses: actions/github-script@v5
         env:
-          DIR: ${{ steps.directories.outputs.FILES }}
+          FILES: ${{ steps.directories.outputs.FILES }}
         with:
           script: |
             const fs = require('fs')
