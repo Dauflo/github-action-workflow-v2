@@ -15,7 +15,7 @@ jobs:
       - name: Finding updated directories compared to master
         id: directories
         run: |
-          echo "::set-output name=FILES::$(git diff --name-only master..${{ github.event.pull_request.base.sha }} | jq -R -s -c 'split("\n")[:-1]')"
+          echo "::set-output name=FILES::$(git diff --name-only HEAD..${{ github.event.pull_request.base.sha }} | jq -R -s -c 'split("\n")[:-1]')"
       - name: Display docker containers to build
         uses: actions/github-script@v5
         env:
