@@ -24,7 +24,7 @@ jobs:
           script: |
             const fs = require('fs')
 
-            const toBuild = JSON.parse('[".github/workflows/ci.yaml","folder-a/README.md","folder-b/.version","folder-b/Dockerfile","folder-b/README.md",""]').filter((file) => {
+            const toBuild = JSON.parse(DIR).filter((file) => {
                 if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
                     return file
                 }
