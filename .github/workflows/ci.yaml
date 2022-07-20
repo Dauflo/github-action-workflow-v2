@@ -39,17 +39,21 @@ jobs:
               if (toBuild.length === 0) {
                 output = '#### No version file updated'
               } else {
-                output = `#### 🖌 olympe-services processes that will be triggered on push for branch
+                output = `#### Version files updated
 
                 <details><summary>Show directories</summary>
 
                 \`\`\`\n
-                ${toBuild.join(', ')}
+                ${toBuild.map(element => {
+                  const version = fs.readFileSync(element, 'utf-8')
+                  const folder = element.split('/')[0]
+                  return `${folder} version ${version}`
+                })}
                 \`\`\`
 
                 </details>
 
-                *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+                *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`
               }
 
               github.rest.issues.createComment({
