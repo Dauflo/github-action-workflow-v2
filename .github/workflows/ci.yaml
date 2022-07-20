@@ -24,6 +24,8 @@ jobs:
           script: |
             const fs = require('fs')
 
+            const { DIR } = process.env
+
             const toBuild = JSON.parse(DIR).filter((file) => {
                 if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
                     return file
