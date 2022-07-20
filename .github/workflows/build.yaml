@@ -1,0 +1,47 @@
+name: Build containers
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  directories:
+    runs-on: ubuntu-latest
+    outputs:
+      dir: ${{ steps.filtering.outputs.result }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Finding updated directories since last git SHA pushed to origin
+        id: directories
+        run: |
+          echo "::set-output name=FILES::$(git diff --name-only HEAD..${{ github.event.before }} | jq -R -s -c 'split("\n")[:-1]')"
+      - name: Filtering updated folders with Dockerfile
+        id: filtering
+        uses: actions/github-script@v6
+        env:
+          FILES: ${{ steps.directories.outputs.DIR }}
+        with:
+          script: |
+              const fs = require('fs')
+              const { DIR } = process.env
+
+              return JSON.parse(DIR).filter((file) => {
+                if (file.includes('.version') && fs.existsSync(`file.split('/')[0]/Dockerfile`)) {
+                  return [file.split('/')[0], fs.readFileSync(file, 'utf-8')]
+                }
+              })
+  build-push:
+    runs-on: ubuntu-latest
+    needs: [directories]
+    env:
+      PROJECT: olympe-327608
+      REGION: europe-west1
+    strategy:
+      matrix:
+        dir: ${{ fromJson(needs.directories.outputs.dir) }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo Building - "${{ matrix.dir[0] }} version ${{ matrix.dir[1] }}"
