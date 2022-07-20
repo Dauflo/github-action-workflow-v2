@@ -41,7 +41,7 @@ jobs:
       REGION: europe-west1
     strategy:
       matrix:
-        dir: ${{ fromJson(needs.filtering.outputs.dir) }}
+        dir: ${{ fromJson(needs.directories.outputs.dir) }}
     steps:
       - uses: actions/checkout@v2
       - run: echo Building - "${{ matrix.dir[0] }} version ${{ matrix.dir[1] }}"
