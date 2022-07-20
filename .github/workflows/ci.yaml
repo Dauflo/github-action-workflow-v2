@@ -26,6 +26,8 @@ jobs:
 
             const { FILES } = process.env
 
+            console.log(FILES)
+
             const toBuild = JSON.parse(FILES).filter((file) => {
                 if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
                     return file
