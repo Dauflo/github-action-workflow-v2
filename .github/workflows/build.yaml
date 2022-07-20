@@ -28,11 +28,8 @@ jobs:
               const fs = require('fs')
               const { FILES } = process.env
 
-              const res = JSON.parse(FILES).filter((file) => {
-                if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
-                  return [file.split('/')[0], fs.readFileSync(file, 'utf-8')]
-                }
-              })
+              const files = JSON.parse(FILES).filter((file) => file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`))
+              const res = files.map(element => [element.split('/')[0], fs.readFileSync(element)])
 
               console.log(res)
               return res

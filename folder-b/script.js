@@ -1,34 +1,9 @@
 const fs = require('fs')
 
-const toBuild = JSON.parse('[".github/workflows/ci.yaml","folder-a/README.md","folder-b/.version","folder-b/Dockerfile","folder-b/README.md",""]').filter((file) => {
-    if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
-        return file
-    }
-})
+const res = JSON.parse('[".github/workflows/build.yaml","folder-b/.version"]').filter((file) => file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`))
 
-let output = ''
+console.log(res)
 
-if (toBuild.length === 0) {
-    console.log('#### No version file updated')
-} else {
-    output = `#### Version files updated
+const test = res.map(elem => [elem.split('/')[0], fs.readFileSync(elem, 'utf-8')])
 
-    <details><summary>Show directories</summary>
-
-    \`\`\`\n
-    ${toBuild.map(element => {
-        const version = fs.readFileSync(element, 'utf-8')
-        const folder = element.split('/')[0]
-        return `${folder} version ${version}`
-    })}
-    \`\`\`
-    </details>
-    *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`
-}
-
-github.rest.issues.createComment({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    body: output
-})
+console.log(test)
