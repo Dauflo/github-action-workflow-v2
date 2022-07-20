@@ -47,4 +47,4 @@ jobs:
         dir: ${{ fromJson(needs.directories.outputs.dir) }}
     steps:
       - uses: actions/checkout@v2
-      - run: echo Building - "${{ matrix.dir[0] }} version ${{ matrix.dir[1] }}"
+      - run: echo Building - "${{ matrix.dir }} version ${{ matrix.dir }}"
