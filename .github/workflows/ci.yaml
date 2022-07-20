@@ -15,18 +15,18 @@ jobs:
       - name: Finding updated directories compared to master
         id: directories
         run: |
-          echo "::set-output name=FILES::$(git diff --name-only master | jq -R -s -c 'split("\n")')"
+          echo "::set-output name=FILES::$(git diff --name-only master | jq -R -s -c 'split("\n")[:-1]')"
       - name: Display docker containers to build
         uses: actions/github-script@v5
         env:
-          DIR: ${{ steps.directories.outputs.DIR }}
+          DIR: ${{ steps.directories.outputs.FILES }}
         with:
           script: |
             const fs = require('fs')
 
-            const { DIR } = process.env
+            const { FILES } = process.env
 
-            const toBuild = JSON.parse(DIR).filter((file) => {
+            const toBuild = JSON.parse(FILES).filter((file) => {
                 if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
                     return file
                 }
