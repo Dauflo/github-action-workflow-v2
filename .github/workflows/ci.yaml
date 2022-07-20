@@ -17,7 +17,7 @@ jobs:
         run: |
           echo "::set-output name=FILES::$(git diff --name-only HEAD..${{ github.event.pull_request.base.sha }} | jq -R -s -c 'split("\n")[:-1]')"
       - name: Display docker containers to build
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         env:
           FILES: ${{ steps.directories.outputs.FILES }}
         with:
