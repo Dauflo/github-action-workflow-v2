@@ -39,14 +39,8 @@ jobs:
 
                 <details><summary>Show directories</summary>
 
-                \`\`\`
-                ${toBuild.map(element => {
-                    const version = fs.readFileSync(element, 'utf-8')
-                    const folder = element.split('/')[0]
-                    return `${folder} version ${version}`
-                })}
-                \`\`\`
                 </details>
+
                 *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             }
 
