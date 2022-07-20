@@ -22,13 +22,13 @@ jobs:
         id: filtering
         uses: actions/github-script@v6
         env:
-          FILES: ${{ steps.directories.outputs.DIR }}
+          FILES: ${{ steps.directories.outputs.FILES }}
         with:
           script: |
               const fs = require('fs')
-              const { DIR } = process.env
+              const { FILES } = process.env
 
-              return JSON.parse(DIR).filter((file) => {
+              return JSON.parse(FILES).filter((file) => {
                 if (file.includes('.version') && fs.existsSync(`file.split('/')[0]/Dockerfile`)) {
                   return [file.split('/')[0], fs.readFileSync(file, 'utf-8')]
                 }
