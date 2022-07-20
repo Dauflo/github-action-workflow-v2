@@ -39,9 +39,13 @@ jobs:
             if (toBuild.length === 0) {
                 output = '#### No version file updated'
             } else {
-                output = `#### Version files updated
+                output = `#### 🖌 olympe-services processes that will be triggered on push for branch
 
                 <details><summary>Show directories</summary>
+
+                \`\`\`\n
+                ${toBuild.join(', ')}
+                \`\`\`
 
                 </details>
 
