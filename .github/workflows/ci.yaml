@@ -43,7 +43,7 @@ jobs:
 
                 <details><summary>Show directories</summary>
 
-                \`\`\`\n
+                \`\`\`
                 ${toBuild.map(element => {
                   const version = fs.readFileSync(element, 'utf-8')
                   const folder = element.split('/')[0]
