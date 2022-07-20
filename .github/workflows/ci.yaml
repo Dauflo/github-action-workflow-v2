@@ -22,23 +22,23 @@ jobs:
           FILES: ${{ steps.directories.outputs.FILES }}
         with:
           script: |
-            const fs = require('fs')
+              const fs = require('fs')
 
-            const { FILES } = process.env
+              const { FILES } = process.env
 
-            console.log(FILES)
+              console.log(FILES)
 
-            const toBuild = JSON.parse(FILES).filter((file) => {
+              const toBuild = JSON.parse(FILES).filter((file) => {
                 if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
-                    return file
+                  return file
                 }
-            })
+              })
 
-            let output = ''
+              let output = ''
 
-            if (toBuild.length === 0) {
+              if (toBuild.length === 0) {
                 output = '#### No version file updated'
-            } else {
+              } else {
                 output = `#### 🖌 olympe-services processes that will be triggered on push for branch
 
                 <details><summary>Show directories</summary>
@@ -50,11 +50,11 @@ jobs:
                 </details>
 
                 *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            }
+              }
 
-            github.rest.issues.createComment({
+              github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: output
-            })
+              })
