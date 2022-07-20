@@ -29,7 +29,7 @@ jobs:
               const { FILES } = process.env
 
               const res = JSON.parse(FILES).filter((file) => {
-                if (file.includes('.version') && fs.existsSync(`file.split('/')[0]/Dockerfile`)) {
+                if (file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`)) {
                   return [file.split('/')[0], fs.readFileSync(file, 'utf-8')]
                 }
               })
