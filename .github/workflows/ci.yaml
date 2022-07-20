@@ -17,7 +17,7 @@ jobs:
         run: |
           echo "::set-output name=FILES::$(git diff --name-only master | jq -R -s -c 'split("\n")')"
       - name: Display docker containers to build
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5
         env:
           DIR: ${{ steps.directories.outputs.DIR }}
         with:
