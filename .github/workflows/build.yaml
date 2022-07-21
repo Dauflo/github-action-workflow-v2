@@ -29,7 +29,7 @@ jobs:
               const { FILES } = process.env
 
               const files = JSON.parse(FILES).filter((file) => file.includes('.version') && fs.existsSync(`${file.split('/')[0]}/Dockerfile`))
-              const res = files.map(element => [element.split('/')[0], fs.readFileSync(element)])
+              const res = files.map(element => [element.split('/')[0], fs.readFileSync(element, 'utf-8')])
 
               console.log(res)
               return res
@@ -44,4 +44,4 @@ jobs:
         dir: ${{ fromJson(needs.directories.outputs.dir) }}
     steps:
       - uses: actions/checkout@v2
-      - run: echo Building - "${{ matrix.dir }} version ${{ matrix.dir }}"
+      - run: echo Building - "${{ matrix.dir }} version ${{ matrix.dir[1] }}"
